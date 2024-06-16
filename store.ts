@@ -1,9 +1,4 @@
-type State = Record<string, any>;
-type ActionPayload = any;
-type Action = { type: string; payload: ActionPayload };
-type Reducer = (state: State, action: Action) => State;
-type Listeners = Array<() => void>;
-type Reducers = Record<string, Reducer>;
+import { Action, Listeners, Reducer, Reducers, State } from "./types";
 
 class Store {
   private static _instance: Store;
@@ -15,7 +10,6 @@ class Store {
     if (Store._instance) {
       return Store._instance;
     }
-
     Store._instance = this;
     this.state = initialState;
   }
@@ -24,16 +18,24 @@ class Store {
     return this.state;
   }
 
-  dispatch(key: string, action: Action) {
-    if (!this.reducers[key]) {
+  configure(reducers: Reducers, initialState: State = {}) {
+    this.combineReducers(reducers);
+    this.state = initialState;
+    return this;
+  }
+
+  dispatch(action: Action) {
+    const [sliceName, _] = action.type.split("/");
+
+    if (!this.reducers[sliceName]) {
       return;
     }
 
-    const reducer = this.reducers[key];
-    const previousStateForKey = this.state[key] || {};
+    const reducer = this.reducers[sliceName];
+    const previousStateForKey = this.state[sliceName] || {};
     const newStateForKey = reducer(previousStateForKey, action);
 
-    this.state[key] = newStateForKey;
+    this.state[sliceName] = newStateForKey;
     this.listeners.forEach((listener) => listener());
   }
 
@@ -55,10 +57,6 @@ class Store {
       this.listeners = this.listeners.filter((l) => l !== listener);
     };
   }
-
-  configureStore(initialState: State, reducers: Reducers) {
-    const store = new Store(initialState);
-    store.combineReducers(reducers);
-    return store;
-  }
 }
+
+export default Store;
