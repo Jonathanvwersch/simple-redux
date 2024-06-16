@@ -1,11 +1,14 @@
 {
   "name": "simple_redux",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "store_class",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
 }
