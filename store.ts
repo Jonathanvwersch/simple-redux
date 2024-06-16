@@ -1,9 +1,17 @@
-import { Action, Listeners, Reducer, Reducers, State } from "./types";
+import {
+  Action,
+  Listeners,
+  Reducer,
+  Reducers,
+  State,
+  StoreReducers,
+  StoreState,
+} from "./types";
 
 class Store {
   private static _instance: Store;
   private state: State = {};
-  private reducers: Reducers = {};
+  private reducers: StoreReducers = {};
   private listeners: Listeners = [];
 
   constructor(initialState: State = {}) {
@@ -18,20 +26,20 @@ class Store {
     return this.state;
   }
 
-  configure(reducers: Reducers, initialState: State = {}) {
-    this.combineReducers(reducers);
-    this.state = initialState;
+  configure(store: StoreState) {
+    this.combineReducers(store.reducers);
+    this.state = store.initialState; // Ensure this aligns with your StoreState type
     return this;
   }
 
   dispatch(action: Action) {
-    const [sliceName, _] = action.type.split("/");
+    const [sliceName, actionName] = action.type.split("/");
 
     if (!this.reducers[sliceName]) {
       return;
     }
 
-    const reducer = this.reducers[sliceName];
+    const reducer = this.reducers[sliceName][actionName];
     const previousStateForKey = this.state[sliceName] || {};
     const newStateForKey = reducer(previousStateForKey, action);
 
@@ -39,11 +47,11 @@ class Store {
     this.listeners.forEach((listener) => listener());
   }
 
-  registerReducer(key: string, reducer: Reducer) {
+  registerReducer(key: string, reducer: Reducers) {
     this.reducers[key] = reducer;
   }
 
-  combineReducers(reducers: Reducers) {
+  combineReducers(reducers: StoreReducers) {
     Object.keys(reducers).forEach((key) =>
       this.registerReducer(key, reducers[key])
     );
@@ -52,7 +60,6 @@ class Store {
 
   subscribe(listener: () => void) {
     this.listeners.push(listener);
-
     return () => {
       this.listeners = this.listeners.filter((l) => l !== listener);
     };

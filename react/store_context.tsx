@@ -1,26 +1,4 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode } from "react";
+import Store from "../store";
 
-type BannerShape = {
-  content: React.ReactNode;
-  severity: AlertColor;
-  hideIcon?: boolean;
-};
-
-type BannerContextType = {
-  banner: BannerShape | undefined;
-  showBanner: (args: BannerShape) => void;
-  hideBanner: () => void;
-};
-
-const BannerContext = createContext<BannerContextType | undefined>(undefined);
-
-type BannerProviderProps = {
-  children: ReactNode;
-  isAuthenticated?: boolean;
-};
+export const StoreContext = createContext<Store | undefined>(undefined);
