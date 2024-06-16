@@ -1,5 +1,5 @@
-import Slice from "../../../slice";
-import { StoreState } from "../../../types";
+import Slice from "../../../src/slice";
+import { StoreState } from "../../../src/types";
 
 const slice = new Slice();
 

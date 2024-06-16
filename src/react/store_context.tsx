@@ -1,4 +1,4 @@
-import { createContext, ReactNode } from "react";
+import { createContext } from "preact";
 import Store from "../store";
 
 export const StoreContext = createContext<Store | undefined>(undefined);

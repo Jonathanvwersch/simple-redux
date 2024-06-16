@@ -1,4 +1,4 @@
-import Store from "../../../store";
+import Store from "../../../src/store";
 import { userInitialState, userReducer } from "./user_slice";
 
 export const store = new Store();

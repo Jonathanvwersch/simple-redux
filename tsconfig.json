@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": "./store",
     "target": "ES6",
     "module": "commonjs",
     "forceConsistentCasingInFileNames": true,

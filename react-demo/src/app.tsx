@@ -2,7 +2,7 @@ import { useState } from "preact/hooks";
 import preactLogo from "./assets/preact.svg";
 import viteLogo from "/vite.svg";
 import "./app.css";
-import { StoreProvider } from "../../react/store_provider";
+import { StoreProvider } from "../../src/react/store_provider";
 import store from "./store/store";
 
 export function App() {
