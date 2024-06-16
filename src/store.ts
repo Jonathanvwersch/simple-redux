@@ -40,9 +40,8 @@ class Store {
     }
 
     const reducer = this.reducers[sliceName][actionName];
-    const previousStateForKey = this.state[sliceName] || {};
-    const newStateForKey = reducer(previousStateForKey, action);
-
+    const stateForKey = this.state[sliceName] || {};
+    const newStateForKey = reducer(stateForKey, action);
     this.state[sliceName] = newStateForKey;
     this.listeners.forEach((listener) => listener());
   }

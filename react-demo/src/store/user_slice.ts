@@ -16,11 +16,12 @@ const userSlice = slice.create({
   initialState,
   reducers: {
     setFirstName: (state: InitialState, action: Action) => {
-      state.firstName = action.payload;
+      return { ...state, firstName: action.payload };
     },
   },
 });
+
 const userReducer = userSlice.reducers;
 const userInitialState = userSlice.initialState;
-
-export { userReducer, userInitialState };
+const userActions = userSlice.actions;
+export { userReducer, userInitialState, userActions };
