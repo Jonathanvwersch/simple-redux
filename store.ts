@@ -51,7 +51,6 @@ class Store {
   subscribe(listener: () => void) {
     this.listeners.push(listener);
 
-    // return unsubscribe callback
     return () => {
       this.listeners = this.listeners.filter((l) => l !== listener);
     };
